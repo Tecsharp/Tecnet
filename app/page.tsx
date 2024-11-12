@@ -1,209 +1,257 @@
-"use client"; 
-
+"use client"; // Asegúrate de que esta línea esté presente
 import Link from "next/link";
 import Image from "next/image";
-import ImageSlider from '../components/ImageSlider';
+import ImageSlider from '../components/ImageSlider'; // Asegúrate de que esta ruta sea correcta
 import { useState } from 'react';
 
+// Categorías para Aplicaciones
 const categories1 = [
   {
     label: "Proxmox",
-    slug: "#",
+    slug: "http://192.168.4.106:8006/",
     description: "Máquinas virtuales y contenedores",
     image_url: "/proxmox.png",
   },
   {
     label: "Jenkins",
-    slug: "#",
+    slug: "http://192.168.4.206:8080/",
     description: "Despliegue de aplicaciones",
     image_url: "/jenkins.png",
   },
   {
     label: "SonarQube",
-    slug: "#",
+    slug: "http://192.168.4.206:9000/",
     description: "Sonar, QualityGate y evaluaciones",
     image_url: "/sonar.png",
   },
   {
     label: "Kanboard",
-    slug: "#",
+    slug: "http://192.168.4.206:8087/",
     description: "Pizarrón Kanban",
     image_url: "/kanboard.png",
   },
   {
     label: "EmulatorJs",
-    slug: "#",
+    slug: "http://192.168.4.206:8088/",
     description: "Videojuegos retro en linea",
     image_url: "/emulatorjs.png",
   },
   {
     label: "EmulatorJs Backend",
-    slug: "#",
+    slug: "http://192.168.4.206:8089/",
     description: "Configuración de EmulatorJs",
     image_url: "/emulatorjs_backend.png",
   },
   {
     label: "OpenMediaVault",
-    slug: "#",
+    slug: "http://192.168.4.107/",
     description: "Dashboard para NAS",
     image_url: "/omv.png",
   },
   {
     label: "Minecraft Server Manager",
-    slug: "#",
+    slug: "http://192.168.4.111:23333/",
     description: "Administrador de servidors de Minecraft",
     image_url: "/minecraft.png",
   },
   {
     label: "Packready",
-    slug: "#",
+    slug: "http://192.168.4.206:8081/",
     description: "Aplicación de paquetería",
     image_url: "/packready.png",
   },
   {
     label: "Tecland",
-    slug: "#",
+    slug: "http://192.168.4.206:8082/",
     description: "Administrador de servidores Roleplay en Minecraft",
     image_url: "/tecland.png",
   },
   {
     label: "TeachEvolutionPro",
-    slug: "#",
+    slug: "http://192.168.4.206:8083/",
     description: "Sistema administrador de escuelas",
     image_url: "/tep.png",
   },
   {
     label: "GymOUT",
-    slug: "#",
+    slug: "http://192.168.4.206:8084/",
     description: "Aplicación para control de ejercicios",
     image_url: "/gymout.png",
   },
   {
     label: "pgAdmin4",
-    slug: "#",
+    slug: "http://192.168.4.206:8090/",
     description: "Base de datos Postgress SQL",
     image_url: "/pgadmin4.png",
   },
   {
     label: "LubeLogger",
-    slug: "#login",
+    slug: "http://192.168.4.206:8085/login",
     description: "Administrador de vehículos",
     image_url: "/luberlogger.png",
   },
   {
     label: "Portainer Apps",
-    slug: "#",
+    slug: "https://192.168.4.206:9443/",
     description: "Administrador de docker",
     image_url: "/portainer.jpeg",
   },
   {
     label: "Gitea Repository",
-    slug: "#",
+    slug: "http://192.168.4.206:3000/",
     description: "Administrador de repositorios",
     image_url: "/gitea.png",
   },
+  {
+    label: "Tecfood",
+    slug: "http://192.168.4.206:8091/",
+    description: "Recetas",
+    image_url: "/tecfood.png",
+  },
+  {
+    label: "Firefly",
+    slug: "http://192.168.4.206:8093/",
+    description: "Finanzas personales",
+    image_url: "/firefly.png",
+  },
+  {
+    label: "Grafana",
+    slug: "http://192.168.4.206:8092/",
+    description: "Logs de apps",
+    image_url: "/grafana.png",
+  },
+  {
+    label: "Plex",
+    slug: "http://192.168.4.206:32400/",
+    description: "Contenido audiovisual",
+    image_url: "/plex.png",
+  },
 ];
 
-
-// Categorías para Aplicaciones 2
+// Categorías para Aplicaciones vpn
 const categories2 = [
   {
     label: "Proxmox",
-    slug: "#",
+    slug: "https://172.29.34.251:8006/",
     description: "Máquinas virtuales y contenedores",
     image_url: "/proxmox.png",
   },
   {
     label: "Jenkins",
-    slug: "#",
+    slug: "http://172.29.195.97:8080/",
     description: "Despliegue de aplicaciones",
     image_url: "/jenkins.png",
   },
   {
     label: "SonarQube",
-    slug: "#",
+    slug: "http://172.29.195.97:9000/",
     description: "Sonar, QualityGate y evaluaciones",
     image_url: "/sonar.png",
   },
   {
     label: "Kanboard",
-    slug: "#",
+    slug: "http://172.29.195.97:8087/",
     description: "Pizarrón Kanban",
     image_url: "/kanboard.png",
   },
   {
     label: "EmulatorJs",
-    slug: "#",
+    slug: "http://172.29.195.97:8088/",
     description: "Videojuegos retro en linea",
     image_url: "/emulatorjs.png",
   },
   {
     label: "EmulatorJs Backend",
-    slug: "#",
+    slug: "http://172.29.195.97:8089/",
     description: "Configuración de EmulatorJs",
     image_url: "/emulatorjs_backend.png",
   },
   {
     label: "OpenMediaVault",
-    slug: "#",
+    slug: "http://172.29.107.141/",
     description: "Dashboard para NAS",
     image_url: "/omv.png",
   },
   {
     label: "Minecraft Server Manager",
-    slug: "#",
+    slug: "http://172.29.6.57:23333/",
     description: "Administrador de servidors de Minecraft",
     image_url: "/minecraft.png",
   },
   {
     label: "Packready",
-    slug: "#",
+    slug: "http://172.29.195.97:8081/",
     description: "Aplicación de paquetería",
     image_url: "/packready.png",
   },
   {
     label: "Tecland",
-    slug: "#",
+    slug: "http://172.29.195.97:8082/",
     description: "Administrador de servidores Roleplay en Minecraft",
     image_url: "/tecland.png",
   },
   {
     label: "TeachEvolutionPro",
-    slug: "#",
+    slug: "http://172.29.195.97:8083/",
     description: "Sistema administrador de escuelas",
     image_url: "/tep.png",
   },
   {
     label: "GymOUT",
-    slug: "#",
+    slug: "http://172.29.195.97:8084",
     description: "Aplicación para control de ejercicios",
     image_url: "/gymout.png",
   },
   {
     label: "pgAdmin4",
-    slug: "#",
+    slug: "http://172.29.195.97:8090",
     description: "Base de datos Postgress SQL",
     image_url: "/pgadmin4.png",
   },
   {
     label: "LubeLogger",
-    slug: "#login",
+    slug: "http://172.29.195.97:8085/login",
     description: "Administrador de vehículos",
     image_url: "/luberlogger.png",
   },
   {
     label: "Portainer Apps",
-    slug: "#",
+    slug: "https://172.29.195.97:9443/",
     description: "Administrador de docker",
     image_url: "/portainer.jpeg",
   },
   {
     label: "Gitea Repository",
-    slug: "#",
+    slug: "http://172.29.195.97:3000/",
     description: "Administrador de repositorios",
     image_url: "/gitea.png",
   },
+  {
+    label: "Tecfood",
+    slug: "http://172.29.195.97:8091/",
+    description: "Recetas",
+    image_url: "/tecfood.png",
+  },
+  {
+    label: "Firefly",
+    slug: "http://172.29.195.97:8093/",
+    description: "Finanzas personales",
+    image_url: "/firefly.png",
+  },
+  {
+    label: "Grafana",
+    slug: "http://172.29.195.97:8092/",
+    description: "Logs de apps",
+    image_url: "/grafana.png",
+  },
+  {
+    label: "Plex",
+    slug: "http://172.29.195.97:32400/",
+    description: "Contenido audiovisual",
+    image_url: "/plex.png",
+  },
 ];
+
 
 export default function Home() {
   const [showAdditionalApps, setShowAdditionalApps] = useState(false);
